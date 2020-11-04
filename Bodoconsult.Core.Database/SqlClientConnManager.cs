@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
@@ -23,6 +24,11 @@ namespace Bodoconsult.Core.Database
             if (!ConnectionString.ToLower().Contains("connect timeout")) ConnectionString += "; Connect timeout=3000";
         }
 
+
+        /// <summary>
+        /// Tests the connectionstring.
+        /// </summary>
+        /// <returns>True= connection could be established; False connection could not be established</returns>
         public override bool TestConnection()
         {
             try
@@ -46,32 +52,34 @@ namespace Bodoconsult.Core.Database
             SendStatus(e.Message);
         }
 
-        /// <summary>
-        /// Get a DbCommand Object, that matches the Provider
-        /// </summary>
-        /// <returns>DBCommand matching the Provider</returns>
-        public override DbCommand GetDbCommand()
-        {
-            var cmd = new SqlCommand();
-            return cmd;
-        }
+        ///// <summary>
+        ///// Get a DbCommand Object, that matches the Provider
+        ///// </summary>
+        ///// <returns>DBCommand matching the Provider</returns>
+        //public override DbCommand GetDbCommand()
+        //{
+        //    var cmd = new SqlCommand();
+        //    return cmd;
+        //}
 
         private int _commandTimeOut = -1;
 
+
         /// <summary>
-        /// Explicitly Sets a ConnectionTimeout
+        /// Set the command timeout for the connection in seconds
         /// </summary>
-        /// <returns>True= connection could be established; False connection could not be established</returns>
+        /// <param name="seconds">Timeout in seconds</param>
         public override void SetCommandTimeout(int seconds)
         {
             _commandTimeOut = seconds;
         }
 
+
         /// <summary>
-        /// Executes a query and returns the DataAdapter for the connection and the Sqlscript
+        /// Get a <see cref="DataAdapter"/> from an SQL statement
         /// </summary>
-        /// <param name="sql">SQL script that will be executed</param>
-        /// <returns></returns>
+        /// <param name="sql">SQL statement</param>
+        /// <returns>A <see cref="DataAdapter"/> object with data</returns>   
         public override DataAdapter GetDataAdapter(string sql)
         {
             var conn = new SqlConnection(ConnectionString);
@@ -79,11 +87,12 @@ namespace Bodoconsult.Core.Database
             return new SqlDataAdapter(sql, conn);
         }
 
+
         /// <summary>
-        /// Executes a query and returns a DbDataReader with the result.
+        /// Get a data table from an SQL statement
         /// </summary>
-        /// <param name="sql">SQL script that will be executed</param>
-        /// <returns></returns>
+        /// <param name="sql">SQL statement to run</param>
+        /// <returns>Open <see cref="DataTable"/> object</returns>
         public override DbDataReader GetDataReader(string sql)
         {
             try
@@ -99,15 +108,16 @@ namespace Bodoconsult.Core.Database
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("GetDataReader:{0}:Sql:{1}", ConnectionString, sql), ex);
+                throw new Exception($"GetDataReader:{ConnectionString}:Sql:{sql}", ex);
             }
         }
 
+
         /// <summary>
-        /// Executes a query and returns the result in a DataTable.
+        /// Get a data table from an SQL statement
         /// </summary>
-        /// <param name="sql">SQL script that will be executed</param>
-        /// <returns></returns>
+        /// <param name="sql">SQL statement to run</param>
+        /// <returns>A <see cref="DataTable"/> object with data</returns>
         public override DataTable GetDataTable(string sql)
         {
             try
@@ -120,20 +130,23 @@ namespace Bodoconsult.Core.Database
                     cmd.CommandTimeout = _commandTimeOut;
                 var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                 var dt = new DataTable();
+                dt.BeginLoadData();
                 dt.Load(reader);
+                dt.EndLoadData();
                 return dt;
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("GetDataTable:{0}:Sql:{1}", ConnectionString, sql), ex);
+                throw new Exception($"GetDataTable:{ConnectionString}:Sql:{sql}", ex);
             }
         }
 
+
         /// <summary>
-        /// Executes a query and returns the first row of the result in an object-array. If the result is empty the function will return a null reference.
+        /// Get a <see cref="DataRow"/> object from a SQL statement
         /// </summary>
-        /// <param name="sql">SQL script that will be executed</param>
-        /// <returns></returns>
+        /// <param name="sql">SQL statement to run</param>
+        /// <returns>A <see cref="DataRow"/> object with data</returns>
         public override object[] GetDataRow(string sql)
         {
             try
@@ -160,15 +173,16 @@ namespace Bodoconsult.Core.Database
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("GetDataRow:{0}:Sql:{1}", ConnectionString, sql), ex);
+                throw new Exception($"GetDataRow:{ConnectionString}:Sql:{sql}", ex);
             }
         }
 
+
         /// <summary>
-        /// Executes a query and returns the first column of the first row in the result. If the result is empty it will return a null reference.
+        /// Exec a SQL statement and return a scalar value as string
         /// </summary>
-        /// <param name="sql">SQL script that will be executed</param>
-        /// <returns></returns>
+        /// <param name="sql">SQL statement</param>
+        /// <returns>Scalar value as string</returns>
         public override string ExecWithResult(string sql)
         {
             try
@@ -188,7 +202,7 @@ namespace Bodoconsult.Core.Database
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("ExecWithResult:{0}:Sql:{1}", ConnectionString, sql), ex);
+                throw new Exception($"ExecWithResult:{ConnectionString}:Sql:{sql}", ex);
             }
 
 
@@ -196,10 +210,10 @@ namespace Bodoconsult.Core.Database
 
 
         /// <summary>
-        /// Executes a query and returns the first column of the first row in the result. If the result is empty it will return a null reference.
+        /// Exec a SQL command and return a scalar value as string
         /// </summary>
-        /// <param name="cmd">SQL script that will be executed </param>
-        /// <returns></returns>
+        /// <param name="cmd">SQL command to run</param>
+        /// <returns>Scalar value as string</returns>
         public override string ExecWithResult(DbCommand cmd)
         {
 
@@ -221,16 +235,16 @@ namespace Bodoconsult.Core.Database
             catch (Exception ex)
             {
 
-                throw new Exception(string.Format("ExecWithResult:{0}:Sql:{1}", ConnectionString, cmd.CommandText), ex);
+                throw new Exception($"ExecWithResult:{ConnectionString}:Sql:{cmd.CommandText}", ex);
             }
         }
 
 
         /// <summary>
-        /// Returns a DataTable for a DbCommand
+        /// Get a data table from an SQL command
         /// </summary>
-        /// <param name="cmd"></param>
-        /// <returns></returns>
+        /// <param name="cmd">SQL command to run</param>
+        /// <returns>A <see cref="DataTable"/> object with data</returns>
         public override DataTable GetDataTable(DbCommand cmd)
         {
             try
@@ -241,17 +255,21 @@ namespace Bodoconsult.Core.Database
                     cmd.Connection = conn;
                     if (_commandTimeOut != -1)
                         cmd.CommandTimeout = _commandTimeOut;
+             
                     cmd.Connection.Open();
+
                     var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
                     var dt = new DataTable();
+                    dt.BeginLoadData();
                     dt.Load(reader);
+                    dt.EndLoadData();
                     return dt;
                 }
             }
             catch (Exception ex)
             {
 
-                throw new Exception(string.Format("GetDataTable:{0}:Sql:{1}", ConnectionString, cmd.CommandText), ex);
+                throw new Exception($"GetDataTable:{ConnectionString}:Sql:{cmd.CommandText}", ex);
             }
 
 
@@ -279,16 +297,17 @@ namespace Bodoconsult.Core.Database
             catch (Exception ex)
             {
 
-                throw new Exception(string.Format("GetDataReader:{0}:Sql:{1}", ConnectionString, cmd.CommandText), ex);
+                throw new Exception($"GetDataReader:{ConnectionString}:Sql:{cmd.CommandText}", ex);
             }
 
 
         }
 
+
         /// <summary>
-        /// Executes cmd
+        /// Run SQL statement directly against database
         /// </summary>
-        /// <param name="cmd">SQL statement to run</param>
+        /// <param name="cmd">SQL statement to run</param>      
         public override void Exec(DbCommand cmd)
         {
             try
@@ -307,12 +326,16 @@ namespace Bodoconsult.Core.Database
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("Exec:{0}:Sql:{1}", ConnectionString, cmd.CommandText), ex);
+                throw new Exception($"Exec:{ConnectionString}:Sql:{cmd.CommandText}", ex);
             }
 
         }
 
 
+        /// <summary>
+        /// Run command async
+        /// </summary>
+        /// <param name="cmd">Command to run</param>
         public override void ExecAsync(DbCommand cmd)
         {
             try
@@ -347,17 +370,17 @@ namespace Bodoconsult.Core.Database
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("ExecAsync:{0}:Sql:{1}", ConnectionString, cmd.CommandText), ex);
+                throw new Exception($"ExecAsync:{ConnectionString}:Sql:{cmd.CommandText}", ex);
             }
         }
 
 
         /// <summary>
-        /// Executes a query.
+        /// Run SQL statement directly against database
         /// </summary>
-        /// <param name="sql">SQL script that will be executed</param>
-        /// <param name="async">True = Executes the sqlsrcipt asynchronious. False = Executes the SQL script synchronious. Script can only be executed asynchronious with provider System.Data.SqlClient</param>
-        public override void Exec(string sql, bool async)
+        /// <param name="sql">SQL statement</param>
+        /// <param name="async">Run async?</param>
+        public override void Exec(string sql, bool async=false)
         {
             try
             {
@@ -395,11 +418,56 @@ namespace Bodoconsult.Core.Database
             catch (Exception ex)
             {
 
-                throw new Exception(string.Format("Exec:{0}:Sql:{1}", ConnectionString, sql), ex);
+                throw new Exception($"Exec:{ConnectionString}:Sql:{sql}", ex);
             }
 
 
         }
+
+        /// <summary>
+        /// Run a lot of commands on one connection
+        /// </summary>
+        /// <param name="commands">List of commands</param>
+        /// <returns>0 if there was no error, command's index if there was an error</returns>
+        public override int ExecMultiple(IList<DbCommand> commands)
+        {
+
+            var index = 0;
+
+            try
+            {
+                using (var conn = new SqlConnection(ConnectionString))
+                {
+                    if (SendStatus != null) conn.InfoMessage += ConnOnInfoMessage;
+
+                    conn.Open();
+
+                    for (index = 0; index < commands.Count; index++)
+                    {
+                        var cmd = commands[index];
+                        cmd.Connection = conn;
+                        if (_commandTimeOut != -1)
+                            cmd.CommandTimeout = _commandTimeOut;
+                        //cmd.Connection.Open();
+                        //cmd.ExecuteNonQuery();
+                        cmd.ExecuteScalar();
+                    }
+
+
+                    conn.Close();
+
+                    return 0;
+                }
+            }
+            catch //(Exception e)
+            {
+                return index;
+            }
+
+
+        }
+
+
 
         private void HandleCallback(IAsyncResult result)
         {

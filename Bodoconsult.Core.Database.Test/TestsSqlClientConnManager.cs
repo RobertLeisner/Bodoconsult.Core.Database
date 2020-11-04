@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using NUnit.Framework;
 
@@ -84,7 +86,7 @@ namespace Bodoconsult.Core.Database.Test
 
             const string sql = "DELETE FROM dbo.settings WHERE skey='XXX'";
 
-            Assert.DoesNotThrow(() => _db.Exec(sql, false));
+            Assert.DoesNotThrow(() => _db.Exec(sql));
         }
 
 
@@ -150,6 +152,28 @@ namespace Bodoconsult.Core.Database.Test
 
             Assert.IsNotNull(result);
             Assert.IsFalse(string.IsNullOrEmpty(result));
+        }
+
+
+        [Test]
+        public void TestExecMultiple()
+        {
+            const string sql = "DELETE FROM [dbo].[DUMMY_Order] WHERE CTR_Type='D'";
+
+            var commands = new List<DbCommand>();
+
+            var cmd = new SqlCommand(sql);
+            commands.Add(cmd);
+
+            cmd = new SqlCommand(sql);
+            commands.Add(cmd);
+
+            cmd = new SqlCommand(sql);
+            commands.Add(cmd);
+
+            var result = _db.ExecMultiple(commands);
+
+            Assert.IsTrue(result == 0);
         }
     }
 }

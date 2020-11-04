@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Bodoconsult.Core.Database")]
-[assembly: AssemblyDescription("Simple database layer based on System.data")]
+[assembly: AssemblyDescription("Simple database layer based on System.Data intended for mainly read-only data access i.e. for reporting purposes")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Bodoconsult EDV-Dienstleistungen GmbH")]
 [assembly: AssemblyProduct("Bodoconsult.Core.Database")]

@@ -6,7 +6,7 @@ It handles the most common database actions like getting datatables, running SQL
 
 # How to use the library
 
-The source code contains a NUnit test class, the following source code is extracted from. It sample shows the most helpful use cases for the library.
+The source code contain a NUnit test classes, the following source code is extracted from. The samples below show the most helpful use cases for the library.
 
     [TestFixture]
     public class TestsSqlClientConnManager
@@ -160,7 +160,7 @@ The source code contains a NUnit test class, the following source code is extrac
 
 # About us
 
-Bodoconsult (<http://www.bodoconsult.de>) is a Munich based software company.
+Bodoconsult (<http://www.bodoconsult.de>) is a Munich based software development company from Germany.
 
 Robert Leisner is senior software developer at Bodoconsult. See his profile on <http://www.bodoconsult.de/Curriculum_vitae_Robert_Leisner.pdf>.
 
