@@ -9,5 +9,5 @@ namespace Bodoconsult.Core.Database
         {
             Erc = e;
         }
-    };
+    }
 }

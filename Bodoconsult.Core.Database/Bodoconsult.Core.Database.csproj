@@ -7,19 +7,15 @@
     <RepositoryUrl>https://github.com/RobertLeisner/Bodoconsult.Core.Database</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>Bodoconsult.Core.Database</PackageId>
-    <Version>1.0.2</Version>
+    <Version>1.0.4</Version>
     <Authors>Robert Leisner</Authors>
     <Company>Bodoconsult EDV-Dienstleistungen GmbH</Company>
     <RepositoryType>git</RepositoryType>
     <PackageTags>System.Data Datatable SQL exec</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Simple database layer based on System.Data intended for mainly read-only data access i.e. for reporting purposes</Description>
-    <PackageReleaseNotes>Added a method ExecMultiple to IConnManager and implementations to run a bunch of  commands on one connection.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added and implemented method GetParameter to IConnManager interface.</PackageReleaseNotes>
     </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="licence.txt" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="licence.txt">

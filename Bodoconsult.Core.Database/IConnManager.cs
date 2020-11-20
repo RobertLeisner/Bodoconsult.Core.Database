@@ -27,7 +27,7 @@ namespace Bodoconsult.Core.Database
         /// </summary>
         /// <param name="sql">SQL statement</param>
         /// <param name="async">Run async?</param>
-        void Exec(string sql, bool async=false);
+        void Exec(string sql, bool async = false);
 
         /// <summary>
         /// Run SQL statement directly against database
@@ -62,6 +62,23 @@ namespace Bodoconsult.Core.Database
         /// <param name="cmd">SQL command to run</param>
         /// <returns>A <see cref="DataTable"/> object with data</returns>
         DataTable GetDataTable(DbCommand cmd);
+
+        /// <summary>
+        /// Get a command object that implements <see cref="DbCommand"/> for the current database
+        /// </summary>
+        /// <returns></returns>
+        DbCommand GetCommand();
+
+
+        /// <summary>
+        /// Get a parameter for the provided command
+        /// </summary>
+        /// <param name="cmd">Current command type</param>
+        /// <param name="parameterName">Name of the parameter</param>
+        /// <param name="dataType">General database data typeof the parameter</param>
+        /// <returns>Parameter object to set value for</returns>
+        DbParameter GetParameter(DbCommand cmd, string parameterName, GeneralDbType dataType);
+
 
 
         /// <summary>
@@ -100,12 +117,20 @@ namespace Bodoconsult.Core.Database
         /// <returns>A <see cref="DataAdapter"/> object with data</returns>   
         DataAdapter GetDataAdapter(string sql);
 
+
+        /// <summary>
+        /// Get a <see cref="DataAdapter"/> from an <see cref="DbCommand"/>
+        /// </summary>
+        /// <param name="cmd">SQL statement</param>
+        /// <returns>A <see cref="DataAdapter"/> object with data</returns>   
+        DataAdapter GetDataAdapter(DbCommand cmd);
+
         /// <summary>
         /// Test the connection
         /// </summary>
         /// <returns>true on success else false</returns>
         bool TestConnection();
-        
+
         /// <summary>
         /// Set the command timeout for the connection in seconds
         /// </summary>
@@ -118,10 +143,6 @@ namespace Bodoconsult.Core.Database
         /// <param name="cmd">Command to run</param>
         void ExecAsync(DbCommand cmd);
 
-        ///// <summary>
-        ///// Get a SQL command object based on the current connection
-        ///// </summary>
-        ///// <returns></returns>
-        //DbCommand GetDbCommand();
+
     }
 }

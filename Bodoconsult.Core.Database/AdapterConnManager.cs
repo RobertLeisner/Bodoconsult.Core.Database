@@ -54,7 +54,7 @@ namespace Bodoconsult.Core.Database
         /// </summary>
         /// <param name="sql">SQL statement</param>
         /// <param name="async">Run async?</param>
-        public virtual void Exec(string sql, bool async=false)
+        public virtual void Exec(string sql, bool async = false)
         {
             throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
@@ -77,7 +77,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>Scalar value as string</returns>
         public virtual string ExecWithResult(string sql)
         {
-            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED); 
+            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
 
@@ -96,7 +96,7 @@ namespace Bodoconsult.Core.Database
         /// Get a data table from an SQL statement
         /// </summary>
         /// <param name="sql">SQL statement to run</param>
-        /// <returns>Open <see cref="DataTable"/> object</returns>
+        /// <returns>An open <see cref="DbDataReader"/> object</returns>
         public virtual DbDataReader GetDataReader(string sql)
         {
             throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
@@ -136,6 +136,16 @@ namespace Bodoconsult.Core.Database
             throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
+        /// <summary>
+        /// Get a <see cref="DataAdapter"/> from an <see cref="DbCommand"/>
+        /// </summary>
+        /// <param name="cmd">SQL statement</param>
+        /// <returns>A <see cref="DataAdapter"/> object with data</returns>   
+        public virtual DataAdapter GetDataAdapter(DbCommand cmd)
+        {
+            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+        }
+
 
         /// <summary>
         /// Get a data table from an SQL command
@@ -148,11 +158,33 @@ namespace Bodoconsult.Core.Database
         }
 
         /// <summary>
+        /// Get a command object that implements <see cref="DbCommand"/> for the current database
+        /// </summary>
+        /// <returns></returns>
+        public virtual DbCommand GetCommand()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
+        /// Get a parameter for the provided command
+        /// </summary>
+        /// <param name="cmd">Current command type</param>
+        /// <param name="parameterName">Name of the parameter</param>
+        /// <param name="dataType">General database data typeof the parameter</param>
+        /// <returns>Parameter object to set value for</returns>
+        public virtual DbParameter GetParameter(DbCommand cmd, string parameterName, GeneralDbType dataType)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Returns a DataReader for a DbCommand
         /// </summary>
         /// <param name="cmd"></param>
-        /// <returns></returns>
-        public virtual  DbDataReader GetDataReader(DbCommand cmd)
+        /// <returns>An open <see cref="DbDataReader"/> object</returns>
+        public virtual DbDataReader GetDataReader(DbCommand cmd)
         {
             throw new NotImplementedException();
         }

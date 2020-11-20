@@ -89,6 +89,27 @@ namespace Bodoconsult.Core.Database
 
 
         /// <summary>
+        /// Get a <see cref="DataAdapter"/> from an <see cref="DbCommand"/>
+        /// </summary>
+        /// <param name="cmd">SQL statement</param>
+        /// <returns>A <see cref="DataAdapter"/> object with data</returns>   
+        public override DataAdapter GetDataAdapter(DbCommand cmd)
+        {
+            if (!(cmd is SqlCommand))
+            {
+                throw new ArgumentException("Command must by of type OleDbCommand!");
+            }
+
+            var conn = new SqlConnection(ConnectionString);
+            var a = new SqlDataAdapter();
+            cmd.Connection = conn;
+            a.SelectCommand = (SqlCommand)cmd;
+
+            return a;
+        }
+
+
+        /// <summary>
         /// Get a data table from an SQL statement
         /// </summary>
         /// <param name="sql">SQL statement to run</param>
@@ -275,6 +296,15 @@ namespace Bodoconsult.Core.Database
 
         }
 
+        /// <summary>
+        /// Get a command object that implements <see cref="DbCommand"/> for the current database
+        /// </summary>
+        /// <returns></returns>
+        public override DbCommand GetCommand()
+        {
+            return new SqlCommand();
+        }
+
 
         /// <summary>
         /// Returns a DataReader for a DbCommand
@@ -285,6 +315,9 @@ namespace Bodoconsult.Core.Database
         {
             try
             {
+
+                var p = new SqlParameter("Test", SqlDbType.BigInt);
+
                 var conn = new SqlConnection(ConnectionString);
                 if (SendStatus != null) conn.InfoMessage += ConnOnInfoMessage;
                 cmd.Connection = conn;
@@ -299,8 +332,6 @@ namespace Bodoconsult.Core.Database
 
                 throw new Exception($"GetDataReader:{ConnectionString}:Sql:{cmd.CommandText}", ex);
             }
-
-
         }
 
 
@@ -494,6 +525,45 @@ namespace Bodoconsult.Core.Database
             }
 
 
+        }
+
+
+        /// <summary>
+        /// Get a parameter for the provided command
+        /// </summary>
+        /// <param name="cmd">Current command type</param>
+        /// <param name="parameterName">Name of the parameter</param>
+        /// <param name="dataType">General database data typeof the parameter</param>
+        /// <returns>Parameter object to set value for</returns>
+        public override DbParameter GetParameter(DbCommand cmd, string parameterName, GeneralDbType dataType)
+        {
+            var sqlCmd = (SqlCommand) cmd;
+
+            var sqlType = MapGeneralDbTypeToSqlDbType(dataType);
+
+            var p = new SqlParameter(parameterName, sqlType);
+
+            sqlCmd.Parameters.Add(p);
+
+            return p;
+        }
+
+
+        /// <summary>
+        /// Map the general database parameter data type to it's SQLClient relative
+        /// </summary>
+        /// <param name="dataType">Gernal database data type</param>
+        /// <returns>SQql data type</returns>
+        public static SqlDbType MapGeneralDbTypeToSqlDbType(GeneralDbType dataType)
+        {
+
+            var t = dataType.ToString().Replace("GeneralDbType", "SqlDbType");
+
+            var sucess = Enum.TryParse(t, out SqlDbType sqlDataType);
+
+            if (sucess) return sqlDataType;
+
+            throw new ArgumentException($"Type not implemented: {dataType}");
         }
     }
 }

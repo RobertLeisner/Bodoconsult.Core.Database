@@ -8,5 +8,5 @@ namespace Bodoconsult.Core.Database
         ERC_UNSUPPORTEDPROVIDER = 12,
         ERC_UDLNOTFOUND = 13,
         ERC_ASYNCNOTPOSSIBLE = 14
-    };
+    }
 }

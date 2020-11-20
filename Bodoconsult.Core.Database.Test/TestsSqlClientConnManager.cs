@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -75,6 +76,106 @@ namespace Bodoconsult.Core.Database.Test
 
 
             Assert.IsTrue(erg.Rows.Count > 0);
+        }
+
+
+        /// <summary>
+        /// Get a datatable from the database from a (parameterized) SqlCommand object (choose this option to avoid SQL injection)
+        /// </summary>
+        [Test]
+        public void TestGetDataTableFromCommandWidthGetCommand()
+        {
+            const string sql = "SELECT * FROM dbo.settings";
+
+            var cmd = _db.GetCommand();
+            cmd.CommandText = sql;
+
+            // Add parameters here if required
+            var erg = _db.GetDataTable(cmd);
+
+
+            Assert.IsTrue(erg.Rows.Count > 0);
+        }
+
+
+        /// <summary>
+        /// Get a datatable from the database from a plain SQL string (avoid this option due to SQL injection)
+        /// </summary>
+        [Test]
+        public void TestGetDataReaderFromSql()
+        {
+
+            const string sql = "SELECT * FROM dbo.settings";
+
+            var erg = _db.GetDataReader(sql);
+
+            Assert.IsTrue(erg.FieldCount > 0);
+        }
+
+
+
+        /// <summary>
+        /// Get a datatable from the database from a (parameterized) SqlCommand object (choose this option to avoid SQL injection)
+        /// </summary>
+        [Test]
+        public void TestGetDataReaderFromCommand()
+        {
+
+            const string sql = "SELECT * FROM dbo.settings";
+
+
+            var cmd = new SqlCommand
+            {
+                CommandText = sql
+            };
+
+            // Add parameters here if required
+
+            var erg = _db.GetDataReader(cmd);
+
+            Assert.IsTrue(erg.FieldCount > 0);
+        }
+
+
+        /// <summary>
+        /// Get a datatable from the database from a (parameterized) SqlCommand object (choose this option to avoid SQL injection)
+        /// </summary>
+        [Test]
+        public void TestGetDataReaderFromCommandWidthGetCommand()
+        {
+            const string sql = "SELECT * FROM dbo.settings";
+
+            var cmd = _db.GetCommand();
+            cmd.CommandText = sql;
+
+            // Add parameters here if required
+            var erg = _db.GetDataReader(cmd);
+
+            Assert.IsTrue(erg.FieldCount>0);
+
+        }
+
+
+        /// <summary>
+        /// Get a datatable from the database from a (parameterized) SqlCommand object (choose this option to avoid SQL injection)
+        /// </summary>
+        [Test]
+        public void TestGetDataReaderFromCommandWidthGetCommandAndParameter()
+        {
+            const string sql = "SELECT * FROM dbo.settings WHERE S_ID=@ID;";
+
+            var cmd = _db.GetCommand();
+            cmd.CommandText = sql;
+
+            var p = _db.GetParameter(cmd, "@ID", GeneralDbType.UniqueIdentifier);
+            p.Value = new Guid("c3f41d97-26bf-4bf2-b428-756f97a17079");
+
+            // Add parameters here if required
+            var erg = _db.GetDataReader(cmd);
+
+            Assert.IsTrue(erg.FieldCount > 0);
+            Assert.IsTrue(erg.HasRows);
+
         }
 
         /// <summary>
@@ -175,5 +276,29 @@ namespace Bodoconsult.Core.Database.Test
 
             Assert.IsTrue(result == 0);
         }
+
+
+        [TestCase(GeneralDbType.BigInt, SqlDbType.BigInt)]
+        [TestCase(GeneralDbType.Int, SqlDbType.Int)]
+        [TestCase(GeneralDbType.DateTime, SqlDbType.DateTime)]
+        [TestCase(GeneralDbType.DateTime2, SqlDbType.DateTime2)]
+        [TestCase(GeneralDbType.SmallInt, SqlDbType.SmallInt)]
+        [TestCase(GeneralDbType.Binary, SqlDbType.Binary)]
+        [TestCase(GeneralDbType.Char, SqlDbType.Char)]
+        [TestCase(GeneralDbType.Bit, SqlDbType.Bit)]
+        [TestCase(GeneralDbType.Decimal, SqlDbType.Decimal)]
+        [TestCase(GeneralDbType.Float, SqlDbType.Float)]
+        public void Test(GeneralDbType inpuType, SqlDbType expectedType)
+        {
+            // Arrange
+
+            // Act
+            var result = SqlClientConnManager.MapGeneralDbTypeToSqlDbType(inpuType);
+
+            // Assert
+            Assert.AreEqual(expectedType, result);
+        }
+
+        
     }
 }
