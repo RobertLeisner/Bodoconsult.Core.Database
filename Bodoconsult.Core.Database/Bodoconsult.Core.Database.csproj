@@ -7,26 +7,19 @@
     <RepositoryUrl>https://github.com/RobertLeisner/Bodoconsult.Core.Database</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>Bodoconsult.Core.Database</PackageId>
-    <Version>1.0.4</Version>
+    <Version>1.0.5</Version>
     <Authors>Robert Leisner</Authors>
     <Company>Bodoconsult EDV-Dienstleistungen GmbH</Company>
     <RepositoryType>git</RepositoryType>
     <PackageTags>System.Data Datatable SQL exec</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Simple database layer based on System.Data intended for mainly read-only data access i.e. for reporting purposes</Description>
-    <PackageReleaseNotes>Added and implemented method GetParameter to IConnManager interface.</PackageReleaseNotes>
+    <Description>Simple .NET database layer based on System.Data intended for mainly read-only data access i.e. for reporting purposes</Description>
+    <PackageReleaseNotes>Removed SqlClient classes to own project.</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/RobertLeisner/Bodoconsult.Core.Database</PackageProjectUrl>
     </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="licence.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.2">
-      <GeneratePathProperty>true</GeneratePathProperty>
-    </PackageReference>
+    <Content Include="..\LICENSE.md" Link="LICENSE.md" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

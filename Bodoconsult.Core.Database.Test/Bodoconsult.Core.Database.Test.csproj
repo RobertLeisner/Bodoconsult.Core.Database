@@ -19,7 +19,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.0">
       <GeneratePathProperty>true</GeneratePathProperty>
     </PackageReference>
   </ItemGroup>

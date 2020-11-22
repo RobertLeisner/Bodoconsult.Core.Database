@@ -1,4 +1,4 @@
-## How to contribute to Bodoconsult.Core.Office library
+## How to contribute to Bodoconsult.Core.Database library
 
 #### **Did you find a bug?**
 
