@@ -7,14 +7,14 @@
     <RepositoryUrl>https://github.com/RobertLeisner/Bodoconsult.Core.Database</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>Bodoconsult.Core.Database</PackageId>
-    <Version>1.0.5</Version>
+    <Version>1.0.6</Version>
     <Authors>Robert Leisner</Authors>
     <Company>Bodoconsult EDV-Dienstleistungen GmbH</Company>
     <RepositoryType>git</RepositoryType>
     <PackageTags>System.Data Datatable SQL exec</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Simple .NET database layer based on System.Data intended for mainly read-only data access i.e. for reporting purposes</Description>
-    <PackageReleaseNotes>Removed SqlClient classes to own project.</PackageReleaseNotes>
+    <PackageReleaseNotes>Add meta data service infrastructure for developers using Bodoconsult.Core.Database based database layers .</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/RobertLeisner/Bodoconsult.Core.Database</PackageProjectUrl>
     </PropertyGroup>
 
