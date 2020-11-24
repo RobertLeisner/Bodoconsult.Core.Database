@@ -5,7 +5,7 @@ Attention: Migrated all SqlServer related stuff like SqlClientConnManager with p
 Bodoconsult.Core.Database library simplifies the access to SQL based databases. This library is as base class which does not contain implementations. 
 It handles the most common database actions like getting datatables, running SQL statement or fetch scalar values from the database.
 
-Additionally the library contains some tools for developers using the database layers derived from Bodoconsult.Core.Database. See below
+Additionally the library contains some tools for developers making the usage of the database layers derived from Bodoconsult.Core.Database as easy as possible. See below.
 
 See the following implementations:
 
@@ -19,7 +19,7 @@ This sample is taken from the implementation Bodoconsult.Core.Database.SqlClient
 
 The source code contain a NUnit test classes, the following source code is extracted from. The samples below show the most helpful use cases for the library.
 
-## Database layer
+## How to use the database layer
 
     [TestFixture]
     public class TestsSqlClientConnManager
@@ -329,7 +329,7 @@ Here a sample how to use the IMetaDataService infrastructure:
 
 			const string conn = "Valid ADO.NET provider connection string";
 
-            const string sql = "SELECT * FROM \"Customer\";";
+            const string sql = "SELECT * FROM [Customer];";
 
             const string entityName = "Customer";
 

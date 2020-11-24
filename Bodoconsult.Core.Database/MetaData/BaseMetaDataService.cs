@@ -18,6 +18,12 @@ namespace Bodoconsult.Core.Database.MetaData
         public string EntityNameSchema { get; set; }
 
         /// <summary>
+        /// Name of the IConnManager implemenation
+        /// </summary>
+        public string ConnManagerName { get; set; } = "DummyMetaDataService";
+
+
+        /// <summary>
         /// Table with meta data 
         /// </summary>
         public MetaDataTable Table { get; set; }
@@ -109,7 +115,7 @@ namespace Bodoconsult.Core.Database.MetaData
 
             result.AppendLine($"public {Table.DtoName}Service(string connectionString)");
             result.AppendLine("{");
-            result.AppendLine("_db = new PostgresConnManager(connectionString);");
+            result.AppendLine($"_db = new {ConnManagerName}(connectionString);");
 
             result.AppendLine("}");
             result.AppendLine("");
