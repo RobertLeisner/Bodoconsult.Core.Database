@@ -347,11 +347,12 @@ Here a sample how to use the IMetaDataService infrastructure:
             var result = service.ExportAll(targetPath);
 
 
-As a result you will find three files with code in the folder D:\temp:
+As a result you will find four files with code in the folder D:\temp:
 
 * D:\temp\Customer_EntityClass_Code.txt
 * D:\temp\Customer_DataHelperMethod_Code.txt
 * D:\temp\Customer_ServiceClass_Code.txt
+* D:\temp\Customer_TestDataHelperMethod_Code.txt
 
 # About us
 
