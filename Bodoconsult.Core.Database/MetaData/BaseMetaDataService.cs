@@ -98,6 +98,15 @@ namespace Bodoconsult.Core.Database.MetaData
         }
 
         /// <summary>
+        /// Creates a method to delete an entity from the database by its ID
+        /// </summary>
+        /// <returns>string with the method code</returns>
+        public virtual string CreateDeleteEntityCommand()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Creates a service class for the entity
         /// </summary>
         /// <returns>string with class code</returns>
@@ -123,6 +132,8 @@ namespace Bodoconsult.Core.Database.MetaData
             result.AppendLine(CreateNewEntityCommand());
 
             result.AppendLine(CreateUpdateEntityCommand());
+
+            result.AppendLine(CreateDeleteEntityCommand());
 
             result.AppendLine(CreateGetAllEntitiesCommand());
 

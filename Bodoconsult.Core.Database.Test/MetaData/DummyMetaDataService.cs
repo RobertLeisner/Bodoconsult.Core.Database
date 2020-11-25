@@ -200,7 +200,7 @@ namespace Bodoconsult.Core.Database.Test.MetaData
                     result = $"dto.{fieldName}=reader.GetInt32({index});";
                     break;
                 case "int64":
-                    result = $"dto.{fieldName}=reader.GetInt64([{index});";
+                    result = $"dto.{fieldName}=reader.GetInt64({index});";
                     break;
                 case "uint16":
                     result = $"dto.{fieldName}=reader.GetUInt16({index});";

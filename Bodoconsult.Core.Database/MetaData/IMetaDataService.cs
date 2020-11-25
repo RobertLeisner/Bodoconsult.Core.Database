@@ -75,6 +75,15 @@ namespace Bodoconsult.Core.Database.MetaData
         /// <returns>string with the method code</returns>
         string CreateUpdateEntityCommand();
 
+
+        /// <summary>
+        /// Creates a method to delete an entity from the database by its ID
+        /// </summary>
+        /// <returns>string with the method code</returns>
+        string CreateDeleteEntityCommand();
+
+
+
         /// <summary>
         /// Creates a service class for the entity
         /// </summary>
