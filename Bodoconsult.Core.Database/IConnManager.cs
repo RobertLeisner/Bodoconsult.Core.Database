@@ -11,6 +11,13 @@ namespace Bodoconsult.Core.Database
     public delegate void SqlStatus(string message);
 
     /// <summary>
+    /// Handler method for notifiying a progress to user interface
+    /// </summary>
+    /// <param name="currentRowNumber">Current row number</param>
+    public delegate void DatabaseNotifyProgressHandler(int currentRowNumber);
+
+
+    /// <summary>
     /// Represents a database connection and important tasks for it
     /// </summary>
     public interface IConnManager
@@ -19,6 +26,18 @@ namespace Bodoconsult.Core.Database
         /// Get status messages from database stored procs
         /// </summary>
         SqlStatus SendStatus { get; set; }
+
+        /// <summary>
+        /// Notify a progress (row number) from a long lasting batch job
+        /// </summary>
+        DatabaseNotifyProgressHandler NotifyProgress { get; set; }
+
+
+        /// <summary>
+        /// Defines the step width a notifying progress handler is fired after
+        /// </summary>
+        int NotifyProgressSteps { get; set; }
+
 
 
 
@@ -142,6 +161,12 @@ namespace Bodoconsult.Core.Database
         /// </summary>
         /// <param name="cmd">Command to run</param>
         void ExecAsync(DbCommand cmd);
+
+
+        /// <summary>
+        /// Calls <see cref="NotifyProgress"/> (for testing purposes only)
+        /// </summary>
+        void TestNotifying();
 
 
     }

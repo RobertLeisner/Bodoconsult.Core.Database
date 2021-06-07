@@ -14,6 +14,10 @@ namespace Bodoconsult.Core.Database
         protected string ConnectionString;
 
 
+        private const string NotImplementedMessage =
+            "The method or operation is not implemented. This is just the adapter class.";
+
+
         #region IConnManager Members
 
         /// <summary>
@@ -22,7 +26,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>True= connection could be established; False connection could not be established</returns>
         public virtual bool TestConnection()
         {
-            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
         ///// <summary>
@@ -31,7 +35,7 @@ namespace Bodoconsult.Core.Database
         ///// <returns>DBCommand matching the Provider</returns>
         //public virtual DbCommand GetDbCommand()
         //{
-        //    throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+        //    throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         //}
 
 
@@ -41,7 +45,7 @@ namespace Bodoconsult.Core.Database
         /// <param name="seconds">Timeout in seconds</param>
         public virtual void SetCommandTimeout(int seconds)
         {
-            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
         /// <summary>
@@ -50,13 +54,23 @@ namespace Bodoconsult.Core.Database
         public SqlStatus SendStatus { get; set; }
 
         /// <summary>
+        /// Notify a progress (row number) from a long lasting batch job
+        /// </summary>
+        public DatabaseNotifyProgressHandler NotifyProgress { get; set; }
+
+        /// <summary>
+        /// Defines the step width a notifying progress handler is fired after. Default: after 100 rows
+        /// </summary>
+        public int NotifyProgressSteps { get; set; } = 100;
+
+        /// <summary>
         /// Run SQL statement directly against database
         /// </summary>
         /// <param name="sql">SQL statement</param>
         /// <param name="async">Run async?</param>
         public virtual void Exec(string sql, bool async = false)
         {
-            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
         /// <summary>
@@ -66,7 +80,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>0 if there was no error, command's index if there was an error</returns>
         public virtual int ExecMultiple(IList<DbCommand> commands)
         {
-            throw new NotImplementedException();
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
 
@@ -77,7 +91,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>Scalar value as string</returns>
         public virtual string ExecWithResult(string sql)
         {
-            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
 
@@ -88,7 +102,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>Scalar value as string</returns>
         public virtual string ExecWithResult(DbCommand cmd)
         {
-            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
 
@@ -99,7 +113,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>An open <see cref="DbDataReader"/> object</returns>
         public virtual DbDataReader GetDataReader(string sql)
         {
-            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
 
         }
 
@@ -111,7 +125,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>A <see cref="DataRow"/> object with data</returns>
         public virtual object[] GetDataRow(string sql)
         {
-            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
 
@@ -122,7 +136,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>A <see cref="DataTable"/> object with data</returns>
         public virtual DataTable GetDataTable(string sql)
         {
-            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
 
@@ -133,7 +147,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>A <see cref="DataAdapter"/> object with data</returns>   
         public virtual DataAdapter GetDataAdapter(string sql)
         {
-            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
         /// <summary>
@@ -143,7 +157,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>A <see cref="DataAdapter"/> object with data</returns>   
         public virtual DataAdapter GetDataAdapter(DbCommand cmd)
         {
-            throw new DbConnException("The method or operation is not implemented. This is just the adapter class (http://www.dofactory.com/Patterns/PatternAdapter.aspx).", DbConnErrorCode.ERC_NOTIMPLEMENTED);
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
 
@@ -154,7 +168,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>A <see cref="DataTable"/> object with data</returns>
         public virtual DataTable GetDataTable(DbCommand cmd)
         {
-            throw new NotImplementedException();
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
         /// <summary>
@@ -163,7 +177,7 @@ namespace Bodoconsult.Core.Database
         /// <returns></returns>
         public virtual DbCommand GetCommand()
         {
-            throw new NotImplementedException();
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
 
@@ -176,7 +190,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>Parameter object to set value for</returns>
         public virtual DbParameter GetParameter(DbCommand cmd, string parameterName, GeneralDbType dataType)
         {
-            throw new NotImplementedException();
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
         /// <summary>
@@ -186,7 +200,7 @@ namespace Bodoconsult.Core.Database
         /// <returns>An open <see cref="DbDataReader"/> object</returns>
         public virtual DbDataReader GetDataReader(DbCommand cmd)
         {
-            throw new NotImplementedException();
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
 
@@ -196,7 +210,7 @@ namespace Bodoconsult.Core.Database
         /// <param name="cmd">SQL statement to run</param>      
         public virtual void Exec(DbCommand cmd)
         {
-            throw new NotImplementedException();
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
         }
 
 
@@ -206,7 +220,15 @@ namespace Bodoconsult.Core.Database
         /// <param name="cmd">Command to run</param>
         public virtual void ExecAsync(DbCommand cmd)
         {
-            throw new NotImplementedException();
+            throw new DbConnException(NotImplementedMessage, DbConnErrorCode.ERC_NOTIMPLEMENTED);
+        }
+
+        /// <summary>
+        /// Calls <see cref="IConnManager.NotifyProgress"/> (for testing purposes only)
+        /// </summary>
+        public virtual void TestNotifying()
+        {
+            NotifyProgress?.Invoke(98);
         }
 
         #endregion

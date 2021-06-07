@@ -179,33 +179,48 @@ namespace Bodoconsult.Core.Database.MetaData
 
             var result = new List<string>();
 
-            if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+            if (!Directory.Exists(dirPath))
+            {
+                Directory.CreateDirectory(dirPath);
+            }
 
             // Export entity class
             var content = CreateEntityClass();
             var fileName = Path.Combine(dirPath, $"{Table.DtoName}_EntityClass_Code.txt");
-            if (File.Exists(fileName)) File.Delete(fileName);
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
             File.WriteAllText(fileName, content, Encoding.UTF8);
             result.Add(fileName);
 
             // Export mapping method
             content = CreateMappingFromDbToEntityForDataReader();
             fileName = Path.Combine(dirPath, $"{Table.DtoName}_DataHelperMethod_Code.txt");
-            if (File.Exists(fileName)) File.Delete(fileName);
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
             File.WriteAllText(fileName, content, Encoding.UTF8);
             result.Add(fileName);
 
             // Export service class
             content = CreateEntityServiceClass();
             fileName = Path.Combine(dirPath, $"{Table.DtoName}_ServiceClass_Code.txt");
-            if (File.Exists(fileName)) File.Delete(fileName);
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
             File.WriteAllText(fileName, content, Encoding.UTF8);
             result.Add(fileName);
 
             // Export service class
             content = CreateNewEntity();
             fileName = Path.Combine(dirPath, $"{Table.DtoName}_TestDataHelperMethod_Code.txt");
-            if (File.Exists(fileName)) File.Delete(fileName);
+            if (File.Exists(fileName))
+            {
+                File.Delete(fileName);
+            }
             File.WriteAllText(fileName, content, Encoding.UTF8);
             result.Add(fileName);
 
