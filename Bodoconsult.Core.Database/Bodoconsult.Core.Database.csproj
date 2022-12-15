@@ -1,30 +1,34 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6</TargetFramework>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>False</Deterministic>
     <RepositoryUrl>https://github.com/RobertLeisner/Bodoconsult.Core.Database</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>Bodoconsult.Core.Database</PackageId>
-    <Version>1.0.9</Version>
+    <Version>1.0.11</Version>
     <Authors>Robert Leisner</Authors>
     <Company>Bodoconsult EDV-Dienstleistungen GmbH</Company>
     <RepositoryType>git</RepositoryType>
     <PackageTags>System.Data Datatable SQL exec</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Simple .NET database layer based on System.Data intended for mainly read-only data access i.e. for reporting purposes</Description>
-    <PackageReleaseNotes>Added NotifyProgress handler and bugfixing.</PackageReleaseNotes>
+    <PackageReleaseNotes>Added readme</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/RobertLeisner/Bodoconsult.Core.Database</PackageProjectUrl>
 	<NeutralLanguage>en</NeutralLanguage>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
   <ItemGroup>
     <Content Include="..\LICENSE.md" Link="LICENSE.md" />
+    <None Include="..\README.md" Link="README.md" Pack="true" PackagePath="\">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if $(ConfigurationName) == Release copy /y &quot;$(TargetDir)\*.*&quot; d:\daten\projekte\Dependencies\Bodoconsult.Core.Database\*.*" />
+    <Exec Command="if exist D:\ if $(ConfigurationName) == Release copy /y &quot;$(TargetDir)\*.*&quot; d:\daten\projekte\Dependencies\Bodoconsult.Core.Database\*.*" />
   </Target>
 
 </Project>
