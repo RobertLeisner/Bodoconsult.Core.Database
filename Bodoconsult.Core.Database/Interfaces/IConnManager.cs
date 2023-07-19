@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 
-namespace Bodoconsult.Core.Database
+namespace Bodoconsult.Core.Database.Interfaces
 {
     /// <summary>
     /// Get status messages from database stored procs

@@ -2,7 +2,7 @@
 using System.Data.Common;
 using Bodoconsult.Core.Database.MetaData.Model;
 
-namespace Bodoconsult.Core.Database.MetaData
+namespace Bodoconsult.Core.Database.Interfaces
 {
 
     /// <summary>
@@ -30,7 +30,7 @@ namespace Bodoconsult.Core.Database.MetaData
         /// <param name="entityName">Name of the entity class</param>
         /// <param name="sql">Current SQL statement to get meta data for</param>
         /// <param name="nameOfPrimaryKeyField">Name of the primary key field. Default: null</param>
-        void GetMetaData(string connectionString, string entityName, string sql, string nameOfPrimaryKeyField=null);
+        void GetMetaData(string connectionString, string entityName, string sql, string nameOfPrimaryKeyField = null);
 
 
         /// <summary>

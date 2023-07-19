@@ -317,6 +317,147 @@ The source code contain a NUnit test classes, the following source code is extra
 	
 ```
 
+## EntityBackup for easy handling of table data backup and removal
+
+EntityBackup is a simple backup solution to keep fast growing tables with a
+ date column as small as possible by backing up the data to CSV files and removing the data from the table. 
+
+An example for such a table may be a table with trace log data written in. The table is growing fast. Maybe you think about keeping the trace data in this table only for one year but you may not loose the older data completely. 
+For such a case you can backup older data as CSV to disk and remove the backuped data from the table. This is what EntityBackup is intended for.
+
+### Central class EntityBackupService<T> based on interface IEntityBackupService<T>
+
+EntityBackupService<T> class provides a full implementation for the getting the required data, backup it and remove it from database.
+
+The main dependency for EntityBackupService<T> is the interface IEntityBackupDataService<T>. Implementations of this interface care for getting the necessary data, 
+formatting a single entity and the removal of the processed entities from database.
+
+``` csharp
+
+
+        [Test]
+        public void TestBackupToCsv()
+        {
+            // Arrange 
+            var from = new DateTime(2023, 7, 19);
+            var to = new DateTime(2023, 7, 22);
+
+
+            var dataService = new DemoEntityEntityBackupDataService();
+            GetDataForService(dataService.DemoEntities, from, to);
+
+            var backupService = new EntityBackupService<DemoEntity>(dataService, TestHelper.TestFolder, "TestBackup");
+
+            // Act  
+            backupService.BackupToCsv(from, to);
+
+            // Assert
+            Assert.That(backupService.FilesWritten, Is.EqualTo(2));
+        }
+
+        private static void GetDataForService(ICollection<DemoEntity> result, DateTime from, DateTime to)
+        {
+            var entity = new DemoEntity
+            {
+                Id = 1,
+                Name = "Test1",
+                Date = from
+            };
+
+            result.Add(entity);
+
+            entity = new DemoEntity
+            {
+                Id = 2,
+                Name = "Test2",
+                Date = from.AddDays(1)
+            };
+
+            result.Add(entity);
+
+            entity = new DemoEntity
+            {
+                Id = 3,
+                Name = "Test3",
+                Date = to.AddDays(1)
+            };
+
+            result.Add(entity);
+
+            entity = new DemoEntity
+            {
+                Id = 4,
+                Name = "Test4",
+                Date = from
+            };
+
+            result.Add(entity);
+        }
+
+```
+
+### Interface IEntityBackupDataService<T>
+
+This interface has to be implemented by the user of EntityBackup to deliver the required data, 
+the formatting of a single entity and the removal of the processed entities from database.
+
+### Sample implementation of interface IEntityBackupDataService<T>
+
+``` csharp
+
+/// <summary>
+/// Example for a implementation of <see cref="IEntityBackupDataService&lt;T&gt;"/>  based on <see cref="DemoEntity"/>
+/// </summary>
+public class DemoEntityEntityBackupDataService : BaseEntityBackupDataService<DemoEntity>
+{
+
+    /// <summary>
+    /// Demo entities for testing
+    /// </summary>
+    public List<DemoEntity> DemoEntities { get; } = new();
+
+    /// <summary>
+    /// Get the data for an entity by date
+    /// </summary>
+    /// <param name="from">Date from inclusive</param>
+    /// <param name="to">Date until exclusive</param>
+    /// <param name="pageSize">Page size</param>
+    /// <param name="pageIndex">Current page index</param>
+    /// <returns>List with entities</returns>
+    public override IList<DemoEntity> GetData(DateTime from, DateTime to, int pageSize, int pageIndex)
+    {
+        return DemoEntities.Where(x => x.Date >= from && x.Date < to).ToList();
+    }
+
+    /// <summary>
+    /// Format the entity as a line with semicolon separated fields
+    /// </summary>
+    /// <param name="entity">Entity to serialize</param>
+    /// <param name="stringBuilder">StringBuilder to append the data</param>
+    public override void FormatAsString(DemoEntity entity, StringBuilder stringBuilder)
+    {
+        stringBuilder.AppendLine($"{entity.Id};{entity.Name};{entity.Date}");
+    }
+
+    /// <summary>
+    /// Remove the entities backuped already
+    /// </summary>
+    /// <param name="entities">Entities to remove</param>
+    public override void RemoveData(IList<DemoEntity> entities)
+    {
+
+        foreach (var entity in entities)
+        {
+            DemoEntities.Remove(entity);
+        }
+
+    }
+
+}
+
+```
+
+
 ## Developer tools for making best usage of Bodoconsult.Core.Database based data layers
 
 There is as basic metadata infrastructure implemented to help developers to make best usage of Bodoconsult.Core.Database. This metadata infrastructure derived from 

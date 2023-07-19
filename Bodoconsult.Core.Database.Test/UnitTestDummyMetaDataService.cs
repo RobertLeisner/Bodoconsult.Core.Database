@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
-using Bodoconsult.Core.Database.MetaData;
+using Bodoconsult.Core.Database.Interfaces;
 using Bodoconsult.Core.Database.Test.MetaData;
 using NUnit.Framework;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.IO;
 using System.Text;
+using Bodoconsult.Core.Database.Interfaces;
 using Bodoconsult.Core.Database.MetaData.Model;
 
 namespace Bodoconsult.Core.Database.MetaData

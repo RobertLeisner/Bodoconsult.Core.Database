@@ -7,14 +7,14 @@
     <RepositoryUrl>https://github.com/RobertLeisner/Bodoconsult.Core.Database</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageId>Bodoconsult.Core.Database</PackageId>
-    <Version>1.0.11</Version>
+    <Version>1.0.12</Version>
     <Authors>Robert Leisner</Authors>
     <Company>Bodoconsult EDV-Dienstleistungen GmbH</Company>
     <RepositoryType>git</RepositoryType>
     <PackageTags>System.Data Datatable SQL exec</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Simple .NET database layer based on System.Data intended for mainly read-only data access i.e. for reporting purposes</Description>
-    <PackageReleaseNotes>Added readme</PackageReleaseNotes>
+    <PackageReleaseNotes>Added EntityBackup</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/RobertLeisner/Bodoconsult.Core.Database</PackageProjectUrl>
 	<NeutralLanguage>en</NeutralLanguage>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if exist D:\ if $(ConfigurationName) == Release copy /y &quot;$(TargetDir)\*.*&quot; d:\daten\projekte\Dependencies\Bodoconsult.Core.Database\*.*" />
+    <Exec Command="if exist c:\ if $(ConfigurationName) == Release copy /y &quot;$(TargetDir)\*.*&quot; c:\daten\projekte\Dependencies\Bodoconsult.Core.Database\*.*" />
   </Target>
 
 </Project>
